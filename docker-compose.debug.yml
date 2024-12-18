@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  bolt:
+    image: bolt
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: development
+    ports:
+      - 3000:3000
+      - 9229:9229
+    command: ["node", "--inspect=0.0.0.0:9229", "-e "const { spawn } = require('child_process'); const isWindows = process.platform === 'win32'; const cmd = isWindows ? 'npm run start:windows' : 'npm run start:unix'; const child = spawn(cmd, { shell: true, stdio: 'inherit' }); child.on('exit', code => process.exit(code));""]
